@@ -7,6 +7,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { ContextProvider } from './Hooks/useStateContext';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
@@ -20,10 +21,12 @@ const darkTheme = createTheme({
 
 root.render(
   <BrowserRouter basename={baseUrl}>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline></CssBaseline>
-      <App />
-    </ThemeProvider>
+    <ContextProvider>
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline></CssBaseline>
+        <App />
+      </ThemeProvider>
+    </ContextProvider>
   </BrowserRouter>);
 
 // If you want your app to work offline and load faster, you can change

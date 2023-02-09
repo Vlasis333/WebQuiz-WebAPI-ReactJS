@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Button, Card, CardContent, TextField, Typography } from "@mui/material";
 import Center from './Center'
 import useForm from "../Hooks/useForm";
+import { createAPIEndpoint, ENDPOINTS } from "../api";
+import useStateContext from "../Hooks/useStateContext";
 
 const getFreshModelObject = () => ({
     name: '',
@@ -10,18 +12,26 @@ const getFreshModelObject = () => ({
 
 export default function LogIn() {
 
+    const { context, setContext } = useStateContext();
+
     const {
-        values,setValues,errors,setErrors,handleInputChange
+        values, setValues, errors, setErrors, handleInputChange
     } = useForm(getFreshModelObject);
 
     const login = e => {
         e.preventDefault();
         if (validate())
-            console.log(values);
+            createAPIEndpoint(ENDPOINTS.participant)
+                .post(values)
+                .then(response => {
+                    setContext({ participantId: response.data.id })
+                    console.log(context)
+                })
+                .catch(err => console.log(err))
     }
 
     const validate = () => {
-        let temp ={}
+        let temp = {}
         temp.email = (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(values.email) ? "" : "Email is not valid."
         temp.name = values.name != "" ? "" : "This field is required."
         setErrors(temp)
@@ -32,7 +42,7 @@ export default function LogIn() {
         <Center>
             <Card sx={{ width: '400' }}>
                 <CardContent sx={{ textAlign: 'center' }}>
-                    <Typography variant="h3" sx= {{ my:3 }}>
+                    <Typography variant="h3" sx={{ my: 3 }}>
                         LogIn
                     </Typography>
                     <Box sx={{
@@ -41,21 +51,21 @@ export default function LogIn() {
                             width: '90%'
                         }
                     }}>
-                        <form noValidate autoComplete="off" onSubmit={login}>
+                        <form noValidate autoComplete="on" onSubmit={login}>
                             <TextField
                                 label='Email'
                                 name='email'
                                 value={values.email}
                                 onChange={handleInputChange}
                                 variant='outlined'
-                                { ...(errors.email && {error:true, helperText:errors.email})} />
+                                {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
                                 label='Name'
                                 name='name'
                                 value={values.name}
                                 onChange={handleInputChange}
                                 variant='outlined'
-                                { ...(errors.name && {error:true, helperText:errors.name})} />
+                                {...(errors.name && { error: true, helperText: errors.name })} />
                             <Button
                                 type='submit'
                                 variant='contained'
