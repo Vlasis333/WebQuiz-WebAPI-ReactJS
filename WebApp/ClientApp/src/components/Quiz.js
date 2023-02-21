@@ -33,7 +33,6 @@ export default function Quiz() {
             .then(res => {
                 setQns(res.data)
                 startTimer()
-                console.log(res.data)
             })
             .catch(err => { console.log(err) })
 
