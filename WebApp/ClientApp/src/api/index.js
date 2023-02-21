@@ -3,7 +3,8 @@ import axios from 'axios'
 export const BASE_URL = 'https://localhost:7232/';
 
 export const ENDPOINTS = {
-    participant: "Participant"
+    participant: "Participant",
+    question: 'question'
 }
 
 export const createAPIEndpoint = endpoint => {

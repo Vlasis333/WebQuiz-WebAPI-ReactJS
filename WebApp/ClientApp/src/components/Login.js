@@ -4,6 +4,7 @@ import Center from './Center'
 import useForm from "../Hooks/useForm";
 import { createAPIEndpoint, ENDPOINTS } from "../api";
 import useStateContext from "../Hooks/useStateContext";
+import { useNavigate } from "react-router-dom";
 
 const getFreshModelObject = () => ({
     name: '',
@@ -13,6 +14,7 @@ const getFreshModelObject = () => ({
 export default function LogIn() {
 
     const { context, setContext } = useStateContext();
+    const navigate = useNavigate();
 
     const {
         values, setValues, errors, setErrors, handleInputChange
@@ -25,7 +27,7 @@ export default function LogIn() {
                 .post(values)
                 .then(response => {
                     setContext({ participantId: response.data.id })
-                    console.log(context)
+                    navigate('/quiz')
                 })
                 .catch(err => console.log(err))
     }
@@ -33,9 +35,9 @@ export default function LogIn() {
     const validate = () => {
         let temp = {}
         temp.email = (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(values.email) ? "" : "Email is not valid."
-        temp.name = values.name != "" ? "" : "This field is required."
+        temp.name = values.name !== "" ? "" : "This field is required."
         setErrors(temp)
-        return Object.values(temp).every(x => x == "")
+        return Object.values(temp).every(x => x === "")
     }
 
     return (
