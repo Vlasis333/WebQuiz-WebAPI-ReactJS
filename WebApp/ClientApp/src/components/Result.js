@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useStateContext from '../Hooks/useStateContext'
 import { createAPIEndpoint, ENDPOINTS } from '../api'
-import { Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { getFormatedTime } from '../helper'
 import { useNavigate } from "react-router-dom";
+import { green } from "@mui/material/colors"
 
 export default function Result() {
     const { context, setContext } = useStateContext()
     const [score, setScore] = useState(0)
     const [qnAnswers, setQnAnswers] = useState([])
+    const [showAlert, setShowAlert] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -41,6 +43,22 @@ export default function Result() {
         navigate("/quiz")
     }
 
+    const submitScore = () => {
+        createAPIEndpoint(ENDPOINTS.participant)
+            .put(context.participantId, {
+                participantId: context.participantId,
+                score: score,
+                timeTaken: context.timeTaken
+            })
+            .then(res => {
+                setShowAlert(true)
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 4000);
+            })
+            .catch(err => { console.log(err) })
+    }
+
     return (
         <Card sx={{ mt: 5, display: 'flex', width: '100%', maxWidth: 640, mx: 'auto' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
@@ -48,18 +66,23 @@ export default function Result() {
                     <Typography variant="h4">Congratulations!</Typography>
                     <Typography variant="h6">Your Score</Typography>
                     <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                        <Typography variant="span">{score}</Typography>/5
+                        <Typography variant="span" color={green[500]}>{score}</Typography>/5
                     </Typography>
                     <Typography variant="h6">
                         Took {getFormatedTime(context.timeTaken) + ' mins'}
                     </Typography>
-                    <Button variant="contained" sx={{ mx: 1 }} size="small">
+                    <Button variant="contained" sx={{ mx: 1 }} size="small"
+                        onClick={submitScore}>
                         Submit
                     </Button>
                     <Button variant="contained" sx={{ mx: 1 }} size="small"
                         onClick={restart}>
                         Retry
                     </Button>
+                    <Alert severity="success" variant="string"
+                        sx={{ width: '60%', m: 'auto', visibility: showAlert ? 'visible' : 'hidden' }}>
+                        Score Updated
+                    </Alert>
                 </CardContent>
             </Box>
             <CardMedia component="img"
