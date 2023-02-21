@@ -1,6 +1,7 @@
-import { Box, Card, CardContent, CardHeader, LinearProgress, List, ListItemButton, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, CardMedia, LinearProgress, List, ListItemButton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { createAPIEndpoint, ENDPOINTS } from '../api'
+import { useNavigate } from "react-router-dom";
+import { BASE_URL, createAPIEndpoint, ENDPOINTS } from '../api'
 import { getFormatedTime } from "../helper";
 import useStateContext from "../Hooks/useStateContext";
 
@@ -10,6 +11,8 @@ export default function Quiz() {
     const [qnIndex, setQnIndex] = useState(0)
     const [timeTaken, setTimeTaken] = useState(0)
     const { context, setContext } = useStateContext()
+    const navigate = useNavigate()
+
     let timer;
 
     const startTimer = () => {
@@ -19,11 +22,18 @@ export default function Quiz() {
     }
 
     useEffect(() => {
+
+        setContext({
+            timeTaken: 0,
+            selectedOptions: []
+        })
+
         createAPIEndpoint(ENDPOINTS.question)
             .fetch()
             .then(res => {
                 setQns(res.data)
                 startTimer()
+                console.log(res.data)
             })
             .catch(err => { console.log(err) })
 
@@ -38,8 +48,15 @@ export default function Quiz() {
             selected: optionIndex
         })
 
-        setContext({selectedOptions:[...temp]})
-        // break point
+        if (qnIndex < 4) {
+            setContext({ selectedOptions: [...temp] })
+            setQnIndex(qnIndex + 1)
+        }
+        else {
+            setContext({ selectedOptions: [...temp], timeTaken })
+            navigate("/result")
+        }
+
     }
 
     return (
@@ -56,6 +73,12 @@ export default function Quiz() {
                 <Box>
                     <LinearProgress variant="determinate" value={(qnIndex + 1) * 100 / 5} />
                 </Box>
+                {qns[qnIndex].image !== null
+                    ? <CardMedia component='img'
+                        image={BASE_URL + 'Images/' + qns[qnIndex].image}
+                        height="250"
+                        sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }} />
+                    : null}
                 <CardContent>
                     <Typography variant="h6">
                         {qns[qnIndex].questionText}

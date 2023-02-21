@@ -1,5 +1,6 @@
 using EF.Data.Access.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,7 @@ builder.Services.AddDbContext<QuizDBContext>(options =>
 
 var app = builder.Build();
 
-app.UseCors(options => 
+app.UseCors(options =>
 options.WithOrigins("https://localhost:44451")
 .AllowAnyMethod().AllowAnyHeader());
 
@@ -35,7 +36,12 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Images")),
+    RequestPath = "/Images"
+});
 app.UseRouting();
 
 app.MapControllerRoute(

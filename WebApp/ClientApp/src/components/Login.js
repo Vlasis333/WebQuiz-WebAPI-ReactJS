@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Card, CardContent, TextField, Typography } from "@mui/material";
 import Center from './Center'
 import useForm from "../Hooks/useForm";
@@ -13,7 +13,7 @@ const getFreshModelObject = () => ({
 
 export default function LogIn() {
 
-    const { context, setContext } = useStateContext();
+    const { context, setContext, resetContext } = useStateContext();
     const navigate = useNavigate();
 
     const {
@@ -31,6 +31,11 @@ export default function LogIn() {
                 })
                 .catch(err => console.log(err))
     }
+
+    useEffect(() => {
+        // resets context API local storage
+        resetContext()
+    }, [])
 
     const validate = () => {
         let temp = {}

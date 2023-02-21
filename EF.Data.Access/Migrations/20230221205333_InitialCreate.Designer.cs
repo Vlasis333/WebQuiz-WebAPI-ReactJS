@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EF.Data.Access.Migrations
 {
     [DbContext(typeof(QuizDBContext))]
-    [Migration("20230209175508_InitialCreate")]
+    [Migration("20230221205333_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
