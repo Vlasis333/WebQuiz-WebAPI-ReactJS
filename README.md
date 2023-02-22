@@ -4,7 +4,7 @@ This project involves building a quiz application using the React.js JavaScript 
 
 ## Instructions
 * Clone repository
-* On the WebApp project cd to ClientApp and run this command 
+* On the WebApp project, cd to ClientApp and run this command 
   'npm install'
 * On EF.Data.Access project run this command at Package Manager Console
   'Update-Database'
