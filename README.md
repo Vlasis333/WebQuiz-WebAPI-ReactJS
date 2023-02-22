@@ -5,8 +5,8 @@ This project involves building a quiz application using the React.js JavaScript 
 ## Instructions
 * Clone repository
 * On the WebApp project, cd to ClientApp and run this command 
-  'npm install'
+  ** 'npm install'
 * On EF.Data.Access project run this command at Package Manager Console
-  'Update-Database'
-  (You can change the location if you dont want it to add database on localdb from the file appsettings.json)
+  ** 'Update-Database'
+  ** (You can change the location of the database from the appsettings.json file. Default: localdb)
 * Run on debug and wait for the vue.js UI to load
