@@ -11,4 +11,4 @@ This project involves building a quiz application using the React.js JavaScript 
     - 'Update-Database'
     - You can change the location of the database from the appsettings.json file.
     - Default: localdb
-5. Run on debug and wait for the vue.js UI to load
+5. Run on debug and wait for the React.js UI to load
