@@ -8,5 +8,6 @@ This project involves building a quiz application using the React.js JavaScript 
     - 'npm install'
 3. On EF.Data.Access project run this command at Package Manager Console
     - 'Update-Database'
-    - (You can change the location of the database from the appsettings.json file. Default: localdb)
+    - You can change the location of the database from the appsettings.json file.
+    - Default: localdb
 4. Run on debug and wait for the vue.js UI to load
