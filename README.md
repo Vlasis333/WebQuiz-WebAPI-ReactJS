@@ -3,10 +3,10 @@
 This project involves building a quiz application using the React.js JavaScript library for the front-end and ASP.NET Core for the back-end API. The application will allow users to take quizzes and receive their scores, with the quiz questions and answers being managed through the ASP.NET Core API. The goal of the project is to create a dynamic and user-friendly quiz experience, utilizing the capabilities of both React.js and ASP.NET Core to deliver a seamless and efficient application.
 
 ## Instructions
-* Clone repository
-* On the WebApp project, cd to ClientApp and run this command 
-  ** 'npm install'
-* On EF.Data.Access project run this command at Package Manager Console
-  ** 'Update-Database'
-  ** (You can change the location of the database from the appsettings.json file. Default: localdb)
-* Run on debug and wait for the vue.js UI to load
+1. Clone repository
+2. On the WebApp project, cd to ClientApp and run this command 
+  - 'npm install'
+3. On EF.Data.Access project run this command at Package Manager Console
+  - 'Update-Database'
+  - (You can change the location of the database from the appsettings.json file. Default: localdb)
+4. Run on debug and wait for the vue.js UI to load
